@@ -21,7 +21,8 @@
     "mongoose": "^8.8.2",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vercel": "^39.1.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17"
