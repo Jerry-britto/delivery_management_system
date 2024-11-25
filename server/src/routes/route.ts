@@ -4,8 +4,8 @@ import {
   deletePartner,
   getPartners,
   updatePartner,
-} from "../controllers/deliverypartner.contoller.ts";
-import { assignOrder, getOrders, updateOrderStatus } from "../controllers/order.controller.ts";
+} from "../controllers/deliverypartner.contoller";
+import { assignOrder, getOrders, updateOrderStatus } from "../controllers/order.controller";
 
 const router = Router();
 

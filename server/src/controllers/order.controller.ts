@@ -1,4 +1,4 @@
-import OrderModel from "../models/Order.ts";
+import OrderModel from "../models/Order";
 import { Request, Response } from "express";
 
 // get all orders ( /api/orders )

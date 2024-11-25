@@ -1,4 +1,4 @@
-import DeliveryPartnerModel from "../models/Deliverpartners.ts";
+import DeliveryPartnerModel from "../models/Deliverpartners";
 import { Request, Response } from "express";
 
 // get partner details ( /api/partners )
