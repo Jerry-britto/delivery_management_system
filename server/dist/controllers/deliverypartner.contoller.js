@@ -56,6 +56,11 @@ const addPartners = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 .json({ message: "Kindly enter all the required details." });
             return;
         }
+        const userExists = yield Deliverpartners_1.default.findOne({ email });
+        if (userExists) {
+            res.status(409).json({ message: "User already exists" });
+            return;
+        }
         // Create a new delivery partner
         const deliverPartner = yield Deliverpartners_1.default.create({
             name,

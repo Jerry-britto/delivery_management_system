@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const deliverypartner_contoller_1 = require("../controllers/deliverypartner.contoller");
 const order_controller_1 = require("../controllers/order.controller");
+const assignment_controller_1 = require("../controllers/assignment.controller");
 const router = (0, express_1.Router)();
 // partners routes
 router
@@ -18,4 +19,9 @@ router.route("/orders").get(order_controller_1.getOrders);
 router.route("/orders/assign").post(order_controller_1.assignOrder);
 router.route("/orders/:id/status").put(order_controller_1.updateOrderStatus);
 // assignment routes
+router.
+    route("/assignments")
+    .get(assignment_controller_1.getAssignemnts)
+    .post(assignment_controller_1.addAssignment);
+router.route("/assignments/run").post(assignment_controller_1.assignPartnersForPendingOrders);
 exports.default = router;
