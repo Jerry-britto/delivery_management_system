@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Assignment } from "@/types";
+import axios from "axios";
 
 type AssignmentModalFormProps = {
   isOpen: boolean;
@@ -26,13 +27,25 @@ export const AssignmentFormModal: React.FC<AssignmentModalFormProps> = ({ isOpen
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     console.log("Submitted Data:", formValues);
-    onClose();
+    try {
+      const res = await axios.post("http://localhost:8000/api/assignments",formValues);
+      if (res.status === 200) {
+        alert("alloted assignment")
+      }
+    } catch (error:any) {
+      console.log(error.response.data || "error occured while adding data");
+      
+      alert("could not allot assignment due to "+error.response.data.message || error.message || "technical issues")
+    }
+    finally{
+      onClose();
+    }
   };
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Assignment Form</DialogTitle>
@@ -77,12 +90,12 @@ export const AssignmentFormModal: React.FC<AssignmentModalFormProps> = ({ isOpen
               onChange={(e) => handleChange("status", e.target.value)}
             >
               <option value="success">Success</option>
-              <option value="failed">Failed</option>
+              <option value="failure">Failure</option>
             </select>
           </div>
 
           {/* Reason (only visible when status is 'failed') */}
-          {formValues.status === "failed" && (
+          {formValues.status === "failure" && (
             <div>
               <label className="block text-sm font-medium mb-1">Reason</label>
               <Textarea

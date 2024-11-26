@@ -59,6 +59,13 @@ const addPartners = async (req: Request, res: Response):Promise<void> => {
         return
     }
 
+    const userExists = await DeliveryPartnerModel.findOne({email})
+
+    if (userExists) {
+      res.status(409).json({message:"User already exists"})
+      return
+    }
+
     // Create a new delivery partner
     const deliverPartner = await DeliveryPartnerModel.create({
       name,
@@ -106,8 +113,6 @@ const updatePartner = async (req: Request, res: Response):Promise<void> => {
     const { id } = req.params;
     const updatedData = req.body;
     
-    
-
     if (!id || Object.keys(updatedData).length === 0) {
        res
         .status(400)

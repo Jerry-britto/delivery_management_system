@@ -30,7 +30,7 @@ export const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) =>
           {assignment.status}
         </span>
 
-        {assignment.status === 'failed' && assignment.reason && (
+        {assignment.status === 'failure' && assignment.reason && (
           <div className="text-sm text-red-600 mt-2">
             <strong>Reason:</strong> {assignment.reason}
           </div>

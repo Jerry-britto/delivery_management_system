@@ -43,7 +43,7 @@ export type DeliveryPartner = {
     orderId: string;
     partnerId: string;
     timestamp: Date;
-    status: 'success' | 'failed';
+    status: 'success' | 'failure';
     reason?: string;
   };
   
