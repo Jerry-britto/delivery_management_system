@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
 import OrderModel from "../models/Order";
 import { Request, Response } from "express";
+import DeliveryPartnerModel from "../models/Deliverpartners";
 
 // get all orders ( /api/orders )
 const getOrders = async (req: Request, res: Response):Promise<void> => {
@@ -63,6 +65,29 @@ const assignOrder = async (req: Request, res: Response):Promise<void> => {
         .json({ message: "Order with the given order number exists" });
         return
     }
+
+    console.log("partner -",mongoose.isValidObjectId(assignedTo));
+    
+    if (assignedTo && !mongoose.isValidObjectId(assignedTo)) {
+       res.status(400).json({ message: "Incorrect partner ID, please check it again" });
+        return;
+      }
+
+    const partner = await DeliveryPartnerModel.findById(assignedTo);
+
+    if (assignedTo !== "" && !partner) {
+      res.status(404).json({message:"partner with the given id does not exist"})
+      return;
+    }
+
+    if (partner.currentLoad >= 3) {
+      res.status(400).json({messge:"delivery partner cannot be selected do check another partner"});
+      return;
+    }
+
+    partner.currentLoad +=1;
+
+    await partner.save();
 
     const newOrder = await OrderModel.create({
       orderNumber,

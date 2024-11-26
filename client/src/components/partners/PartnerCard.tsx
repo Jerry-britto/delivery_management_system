@@ -25,7 +25,7 @@ export const PartnerCard: React.FC<PartnerCardProps> = ({
 
   const deletePartner = async(id:any)=>{
     try {
-      const res = await axios.delete(`http://localhost:8000/api/partners/${id}`)
+      const res = await axios.delete(`https://delivery-management-system-c51i.onrender.com/api/partners/${id}`)
       if (res.status === 200) {
         console.log("deleted partner");
       }

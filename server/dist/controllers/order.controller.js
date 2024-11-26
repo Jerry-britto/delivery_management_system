@@ -13,7 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOrderStatus = exports.assignOrder = exports.getOrders = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const Order_1 = __importDefault(require("../models/Order"));
+const Deliverpartners_1 = __importDefault(require("../models/Deliverpartners"));
 // get all orders ( /api/orders )
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -59,6 +61,22 @@ const assignOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 .json({ message: "Order with the given order number exists" });
             return;
         }
+        console.log("partner -", mongoose_1.default.isValidObjectId(assignedTo));
+        if (assignedTo && !mongoose_1.default.isValidObjectId(assignedTo)) {
+            res.status(400).json({ message: "Incorrect partner ID, please check it again" });
+            return;
+        }
+        const partner = yield Deliverpartners_1.default.findById(assignedTo);
+        if (assignedTo !== "" && !partner) {
+            res.status(404).json({ message: "partner with the given id does not exist" });
+            return;
+        }
+        if (partner.currentLoad >= 3) {
+            res.status(400).json({ messge: "delivery partner cannot be selected do check another partner" });
+            return;
+        }
+        partner.currentLoad += 1;
+        yield partner.save();
         const newOrder = yield Order_1.default.create({
             orderNumber,
             customer: {

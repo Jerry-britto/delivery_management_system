@@ -102,7 +102,7 @@ const EditPartnerModal: React.FC<EditPartnerModalProps> = ({
         (filtered.cancelledOrders = formData.metrics.cancelledOrders),
         console.log(filtered);
 
-        const res = await axios.put(`http://localhost:8000/api/partners/${partner._id}`,filtered)
+        const res = await axios.put(`https://delivery-management-system-c51i.onrender.com/api/partners/${partner._id}`,filtered)
         if (res.status === 200) {
           console.log("updated data");
           

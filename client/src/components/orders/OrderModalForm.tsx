@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select";
@@ -33,6 +33,7 @@ export const OrderModalForm: React.FC<OrderModalFormProps> = ({ isOpen, onClose 
     assignedTo: "",
     totalAmount: 0,
   });
+  
 
   const handleChange = (field: string, value: any) => {
     setFormValues((prev) => ({
@@ -41,6 +42,20 @@ export const OrderModalForm: React.FC<OrderModalFormProps> = ({ isOpen, onClose 
     }));
   };
 
+  const calculateTotalValue = () =>{
+    const totalAmount = formValues.items.reduce((total, item) => {
+      return total + item.quantity * item.price;
+    }, 0);  
+    setFormValues((prev) => ({
+      ...prev,
+      totalAmount:totalAmount
+    }));
+  }
+
+  useEffect(()=>{
+    calculateTotalValue();
+  },[formValues.items])
+  
   const handleCustomerChange = (field: string, value: string) => {
     setFormValues((prev) => ({
       ...prev,
@@ -81,17 +96,17 @@ export const OrderModalForm: React.FC<OrderModalFormProps> = ({ isOpen, onClose 
    
       console.log(filtered);
 
-      const res = await axios.post("http://localhost:8000/api/orders/assign",filtered);
+      const res = await axios.post("https://delivery-management-system-c51i.onrender.com/api/orders/assign",filtered);
       if (res.status === 200) {
         alert("added order");
         console.log("added order");
       }
     } catch (error: any) {
-      alert("could not add delivery partner due to "+error.message)
       console.log(
         error.response.data ||
           "could not add order please try again after some time"
       );
+      alert("could not add delivery partner due to "+error.message)
     }
     finally{
       onClose(); // Close the modal after submission
@@ -242,7 +257,7 @@ export const OrderModalForm: React.FC<OrderModalFormProps> = ({ isOpen, onClose 
             <Input
               type="number"
               value={formValues.totalAmount}
-              onChange={(e) => handleChange("totalAmount", parseFloat(e.target.value))}
+              disabled
             />
           </div>
 

@@ -116,7 +116,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             <div className="flex-1">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Clock className="h-4 w-4" />
-                Scheduled for: {formatDate(order.scheduledFor)}
+                Scheduled for: {order.scheduledFor}
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
                 <DollarSign className="h-4 w-4" />

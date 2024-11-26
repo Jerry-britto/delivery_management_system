@@ -82,7 +82,7 @@ export const DeliveryPartnerFormModal: React.FC<
         (filtered.cancelledOrders = formValues.metrics.cancelledOrders),
         console.log(filtered);
 
-      const res = await axios.post("http://localhost:8000/api/partners",filtered);
+      const res = await axios.post("https://delivery-management-system-c51i.onrender.com/api/partners",filtered);
       if (res.status === 200) {
         alert("added delivery partner");
         const updatedData = await getDeliveryPartner()

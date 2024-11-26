@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getDeliveryPartner = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/partners");
+      const res = await axios.get("https://delivery-management-system-c51i.onrender.com/api/partners");
   
       // Check if the response is successful
       if (res.status === 200) {
@@ -32,7 +32,7 @@ export const getDeliveryPartner = async () => {
 
   export const getOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/orders");
+      const res = await axios.get("https://delivery-management-system-c51i.onrender.com/api/orders");
   
       // Check if the response is successful
       if (res.status === 200) {

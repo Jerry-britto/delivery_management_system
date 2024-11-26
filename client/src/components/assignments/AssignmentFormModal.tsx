@@ -30,7 +30,7 @@ export const AssignmentFormModal: React.FC<AssignmentModalFormProps> = ({ isOpen
   const handleSubmit = async() => {
     console.log("Submitted Data:", formValues);
     try {
-      const res = await axios.post("http://localhost:8000/api/assignments",formValues);
+      const res = await axios.post("https://delivery-management-system-c51i.onrender.com/api/assignments",formValues);
       if (res.status === 200) {
         alert("alloted assignment")
       }

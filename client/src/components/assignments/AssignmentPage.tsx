@@ -14,24 +14,26 @@ export const AssignmentPage: React.FC = () => {
 
   const loadAssignments = async() =>{
     try {
-      const res = await axios.get("http://localhost:8000/api/assignments");
+      const res = await axios.get("https://delivery-management-system-c51i.onrender.com/api/assignments");
       if (res.status === 200) {
         setAssignments(res.data.assignments)
       }
     } catch (error:any) {
+      console.log("error message from assignments",error.message);
+      
       console.log(error.response.data || "error occured while getting data");
       alert("could not load data due to "+error.message)
     }
   }
   const allocateOrders = async() =>{
     try {
-      const res = await axios.post("http://localhost:8000/api/assignments/run")
+      const res = await axios.post("https://delivery-management-system-c51i.onrender.com/api/assignments/run")
       if (res.status === 200) {
         alert("allocated pending orders")
       }
     } catch (error:any) {
       console.log("could not allocate orders due to ",error.response.data.message || error.message);
-      alert("error occured due to " + error.response.data.message || error.message)
+      alert(error.response.data.message || error.message)
     }
   }
 
