@@ -73,21 +73,24 @@ const assignOrder = async (req: Request, res: Response):Promise<void> => {
         return;
       }
 
-    const partner = await DeliveryPartnerModel.findById(assignedTo);
+      if (assignedTo) {
+        const partner = await DeliveryPartnerModel.findById(assignedTo);
+        if (assignedTo !== "" && !partner) {
+          res.status(404).json({message:"partner with the given id does not exist"})
+          return;
+        }
+    
+        if (partner.currentLoad >= 3) {
+          res.status(400).json({messge:"delivery partner cannot be selected do check another partner"});
+          return;
+        }
+    
+        partner.currentLoad +=1;
+    
+        await partner.save();
+      }
 
-    if (assignedTo !== "" && !partner) {
-      res.status(404).json({message:"partner with the given id does not exist"})
-      return;
-    }
-
-    if (partner.currentLoad >= 3) {
-      res.status(400).json({messge:"delivery partner cannot be selected do check another partner"});
-      return;
-    }
-
-    partner.currentLoad +=1;
-
-    await partner.save();
+  
 
     const newOrder = await OrderModel.create({
       orderNumber,

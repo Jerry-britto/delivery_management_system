@@ -66,17 +66,19 @@ const assignOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(400).json({ message: "Incorrect partner ID, please check it again" });
             return;
         }
-        const partner = yield Deliverpartners_1.default.findById(assignedTo);
-        if (assignedTo !== "" && !partner) {
-            res.status(404).json({ message: "partner with the given id does not exist" });
-            return;
+        if (assignedTo) {
+            const partner = yield Deliverpartners_1.default.findById(assignedTo);
+            if (assignedTo !== "" && !partner) {
+                res.status(404).json({ message: "partner with the given id does not exist" });
+                return;
+            }
+            if (partner.currentLoad >= 3) {
+                res.status(400).json({ messge: "delivery partner cannot be selected do check another partner" });
+                return;
+            }
+            partner.currentLoad += 1;
+            yield partner.save();
         }
-        if (partner.currentLoad >= 3) {
-            res.status(400).json({ messge: "delivery partner cannot be selected do check another partner" });
-            return;
-        }
-        partner.currentLoad += 1;
-        yield partner.save();
         const newOrder = yield Order_1.default.create({
             orderNumber,
             customer: {
