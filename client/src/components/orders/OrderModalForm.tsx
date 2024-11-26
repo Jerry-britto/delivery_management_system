@@ -106,7 +106,7 @@ export const OrderModalForm: React.FC<OrderModalFormProps> = ({ isOpen, onClose 
         error.response.data ||
           "could not add order please try again after some time"
       );
-      alert("could not add delivery partner due to "+error.message)
+      alert(error.response.data ||"could not add delivery partner due to "+error.message)
     }
     finally{
       onClose(); // Close the modal after submission

@@ -110,6 +110,8 @@ const updateOrderStatus = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { id } = req.params;
         const { status } = req.body;
+        console.log(id, status);
+        ``;
         if (!id || !status) {
             res
                 .status(400)

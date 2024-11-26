@@ -47,11 +47,11 @@ export const OrderCard: React.FC<OrderCardProps> = ({
     }).format(amount);
   };
 
-  const updatedStatus = async()=>{
+  const updatedStatus = async(value:string)=>{
     try {
       console.log(order._id);
       
-      const res = await axios.put(`http://localhost:8000/api/orders/${order._id}/status`,{status})
+      const res = await axios.put(`https://delivery-management-system-c51i.onrender.com/api/orders/${order._id}/status`,{status:value})
       if (res.status === 200) {
         console.log("status updated");
       }
@@ -85,7 +85,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             onValueChange={(value: Order['status']) => {
 
               setStatus(value)
-              updatedStatus()
+              updatedStatus(value)
             }
             }
           >
